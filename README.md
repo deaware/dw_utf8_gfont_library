@@ -17,3 +17,7 @@ Now we implement in case of Arduino on ESP8266 for example.
 ## Limitation
 - Exporter cannot rendering small font (ex. less than 24 on THSarabun).
 - Some Thai font has issue with SARA and WANAYUK.
+
+## Next version
+- Fix all limitation.
+- Add international font example (ex. Japan, China ...).

@@ -59,7 +59,7 @@ typedef struct {
     dw_font_symbol_t symbols[];
 }dw_font_info_t;
 
-typedef void (dw_font_drawpixel_t)(int16_t x, int16_t y, uint8_t value);
+typedef void (dw_font_drawpixel_t)(int16_t x, int16_t y);
 typedef void (dw_font_clrpixel_t)(int16_t x, int16_t y);
 typedef void (dw_font_draw_bimap_t)(int16_t x, int16_t y, dw_font_bitmap_t *bitmap);
 

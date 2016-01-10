@@ -21,7 +21,13 @@ HEADERS  += widget.h \
 
 INCLUDEPATH += $$_PRO_FILE_PWD_/freetype/include
 
-LIBS += -lfreetype
+win32 {
+    LIBS += -L$$_PRO_FILE_PWD_/freetype -lfreetype-6
+}
+
+linux {
+    LIBS += -lfreetype
+}
 
 FORMS    += widget.ui
 

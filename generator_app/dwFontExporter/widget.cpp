@@ -57,14 +57,24 @@
                                     "* THE SOFTWARE.\n" \
                                     "*/"
 
-#define HEADER_FILE                 "\"dw_font.h\""
+
+#define HEADER_FILE                 "#include \"dw_font.h\"\n" \
+                                    "#if defined(__AVR__)\n" \
+                                    "    #include <avr/pgmspace.h>\n" \
+                                    "    #define CONST_PREFIX           const PROGMEM\n" \
+                                    "#elif defined(__XTENSA__)\n" \
+                                    "    #include <pgmspace.h>\n" \
+                                    "    #define CONST_PREFIX           const PROGMEM\n" \
+                                    "#else\n" \
+                                    "    #define CONST_PREFIX           const\n" \
+                                    "#endif"
+
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-
     p_freetype = new wrapFreeType(this);
 }
 
@@ -102,7 +112,7 @@ QString Widget::renderBitmap(const wrap_freetype_glyph_t& glyph)
 
     utf8 = codec->fromUnicode(QChar(glyph.unicode)).toHex();
 
-    str = QString("static const dw_font_bitmap_t symbol_%1 = {\n")
+    str = QString("static CONST_PREFIX dw_font_bitmap_t symbol_%1 = {\n")
                   .arg(utf8);
 
     str += QString("    .width = %1,\n"
@@ -123,7 +133,7 @@ QString Widget::renderBitmap(const wrap_freetype_glyph_t& glyph)
 
 QString Widget::generateHeader(void)
 {
-    return QString() + LICENCE_TEXT + "\n\n" + "#include " HEADER_FILE + "\n\n";
+    return QString() + LICENCE_TEXT + "\n\n" + HEADER_FILE + "\n\n";
 }
 
 QString Widget::generateFooter(void)

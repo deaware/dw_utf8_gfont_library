@@ -42,6 +42,24 @@ static const uint32_t padding_symbol[] = {0xe0b8b3};
 #define FALSE               0
 #define TRUE                !FALSE
 
+#define PROGMEM_READ_CONST_16BIT(x)          pgm_read_word(x)
+#define PROGMEM_READ_CONST_8BIT(x)           pgm_read_byte(x)
+
+//#define AVR_OPTIMIZED
+
+#if defined(__AVR__)
+    #include <avr/pgmspace.h>
+    #define READ_CONST_16BIT(x)             PROGMEM_READ_CONST_16BIT(x)
+    #define READ_CONST_8BIT(x)              PROGMEM_READ_CONST_8BIT(x)
+#elif defined(__XTENSA__)
+    #include <pgmspace.h>
+    #define READ_CONST_16BIT(x)             PROGMEM_READ_CONST_16BIT(x)
+    #define READ_CONST_8BIT(x)              PROGMEM_READ_CONST_8BIT(x)
+#else
+    #define READ_CONST_16BIT(x)             *x
+    #define READ_CONST_8BIT(x)              *x
+#endif
+
 static void* binary_search (const void* key, const void* base0,
                       int16_t num, int16_t size,
                       int (*compar)(const void*,const void*))
@@ -141,12 +159,10 @@ static void internal_draw_bitmap(dw_font_t *inst,
     uint8_t current_bit = 7;
     uint8_t *data_ptr = bitmap->data;
 
-    for (current_y = y; current_y < (y + bitmap->height); current_y++) {
-        for (current_x = x; current_x < (x + bitmap->width); current_x++) {
-            if ((*data_ptr & (1 << current_bit)) > 0) {
-                inst->draw_pixel_cb(current_x, current_y, 1);
-            } else {
-                inst->draw_pixel_cb(current_x, current_y, 0);
+    for (current_y = y; current_y < (y + READ_CONST_16BIT(&bitmap->height)); current_y++) {
+        for (current_x = x; current_x < (x + READ_CONST_16BIT(&bitmap->width)); current_x++) {
+            if ((READ_CONST_8BIT(data_ptr) & (1 << current_bit)) > 0) {
+                inst->draw_pixel_cb(current_x, current_y);
             }
 
             if (current_bit > 0) {

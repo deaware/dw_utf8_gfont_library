@@ -14,10 +14,18 @@ Now we implement in case of Arduino on ESP8266 for example.
 3. Open up **Arduino**.
 4. Open example **File -> Examples -> dw_utf8_gfont_library -> TFT_ILI9341** for ILI9341 display, **File -> Examples -> dw_utf8_gfont_library -> OLED** for OLED display.
 
+## Generator
+Windows : [Win32_Release_v1.0](https://github.com/deaware/dw_utf8_gfont_library/blob/master/generator_app/dwFontExporter/dwFontExporter_win32_release_v1.0.zip?raw=true)
+
+Mac : Not yet built, but you can compile using Qt direct from source code.
+
+Linux : Not yet built, but you can compile using Qt direct from source code.
+
+
 ## Limitation
 - Exporter cannot rendering small font (ex. less than 24 on THSarabun).
 - Some Thai font has issue with SARA and WANAYUK.
 
 ## Next version
 - Fix all limitation.
-- Add international font example (ex. Japan, China ...).
+- Add international font example (ex. Japan, China ...).)

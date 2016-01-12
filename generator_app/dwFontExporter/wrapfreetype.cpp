@@ -117,6 +117,7 @@ int8_t wrapFreeType::renderGlyph(QChar c, wrap_freetype_glyph_t *glyph)
     uint32_t i = 0;
     uint8_t b = 0;
     uint8_t b_index = 0;
+    uint8_t ft_b_index = 0;
 
     initGlyph(glyph);
 
@@ -134,7 +135,7 @@ int8_t wrapFreeType::renderGlyph(QChar c, wrap_freetype_glyph_t *glyph)
     }
 
     /* convert to an anti-aliased bitmap */
-    error = FT_Render_Glyph( face->glyph, FT_RENDER_MODE_NORMAL );
+    error = FT_Render_Glyph( face->glyph, FT_RENDER_MODE_MONO );
 
     if ( error ) {
         perror ("Could not render glyph.\r\n");
@@ -152,9 +153,12 @@ int8_t wrapFreeType::renderGlyph(QChar c, wrap_freetype_glyph_t *glyph)
     b = 0;
     b_index = 7;
     for (y=0; y<face->glyph->bitmap.rows; y++) {
+        i = 0;
+        ft_b_index = 7;
         for (x=0; x<face->glyph->bitmap.width; x++) {
             /* Convert gray-scale to mono. */
-            if (face->glyph->bitmap.buffer[i] > 127) {
+            if ((face->glyph->bitmap.buffer[y*face->glyph->bitmap.pitch + i] &
+                (1 << ft_b_index)) > 0) {
                 b |= (1 << b_index);
             }
 
@@ -165,7 +169,13 @@ int8_t wrapFreeType::renderGlyph(QChar c, wrap_freetype_glyph_t *glyph)
             } else {
                 b_index--;
             }
-            i++;
+
+            if (ft_b_index <= 0) {
+                ft_b_index = 7;
+                i++;
+            } else {
+                ft_b_index--;
+            }
         }
     }
 

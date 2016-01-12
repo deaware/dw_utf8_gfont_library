@@ -326,7 +326,7 @@ void dw_font_print(dw_font_t *inst,
 
         current_str += size;
         if (current_symbol != NULL) {
-            if ((inst->current_x + current_symbol->bitmap->width) >= inst->x_res) {
+            if ((inst->current_x + READ_CONST_16BIT(&current_symbol->bitmap->width)) >= inst->x_res) {
                 /* Implement newline here if needed. */
 
             }
@@ -339,7 +339,7 @@ void dw_font_print(dw_font_t *inst,
                 if (should_padding(prev_symbol, current_symbol, next_symbol)) {
                     offset_y = current_symbol->offset_y;
                 } else {
-                    offset_y = current_symbol->offset_y + current_symbol->bitmap->height;
+                    offset_y = current_symbol->offset_y + READ_CONST_16BIT(&current_symbol->bitmap->height);
                 }
             } else {
                 offset_y = current_symbol->offset_y;

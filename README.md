@@ -6,6 +6,7 @@
     <td width="50%">
         <img src="http://128.199.176.236/dw_utf8_gfont_library/images/oled_thai.jpg"></img>
     </td>
+</table>
 
 ## Description
 This library is made for render UTF-8 text. Rendered font can be exported from **.ttf** and **.otf** file using **dwExporter** in **generator_app**. 

@@ -1,10 +1,10 @@
 # UTF-8 Graphic Font Library for Microcontroller.
 <table border="0">
     <td width="50%">
-        <img src="http://128.199.176.236/dw_utf8_gfont_library/images/banner.jpg"></img>
+        <img src="http://imgur.com/WlAtoPe"></img>
     </td>
     <td width="50%">
-        <img src="http://128.199.176.236/dw_utf8_gfont_library/images/oled_thai.jpg"></img>
+        <img src="http://imgur.com/tTaVG7u"></img>
     </td>
 </table>
 
